@@ -162,6 +162,11 @@ plugins:
     layout:
       position: right
       priority: 10
+    options:
+      localGraph:
+        depth: 1
+      globalGraph:
+        depth: -1
   - source: github:quartz-community/search
     enabled: true
     layout:
