@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: airiyourdm.github.io/sinnerdnd
+  baseUrl: quartz.jzhao.xyz
   ignorePatterns:
     - private
     - templates
@@ -16,20 +16,20 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Yanone Kaffeesatz
-      body: Cormorant
+      header: Schibsted Grotesk
+      body: Source Sans Pro
       code: IBM Plex Mono
     colors:
       lightMode:
-        light: "#f8ebef"
-        lightgray: "#f3e8eb"
-        gray: "#c05884"
-        darkgray: "#2d0f1c"
-        dark: "#5b263c"
+        light: "#faf8f8"
+        lightgray: "#e5e5e5"
+        gray: "#b8b8b8"
+        darkgray: "#4e4e4e"
+        dark: "#2b2b2b"
         secondary: "#284b63"
-        tertiary: "#8498a5"
+        tertiary: "#84a59d"
         highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3c7f077"
+        textHighlight: "#fff23688"
       darkMode:
         light: "#161618"
         lightgray: "#393639"
@@ -37,9 +37,9 @@ configuration:
         darkgray: "#d4d4d4"
         dark: "#ebebec"
         secondary: "#7b97aa"
-        tertiary: "#8498a5"
+        tertiary: "#84a59d"
         highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3c7f077"
+        textHighlight: "#b3aa0288"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -61,17 +61,7 @@ plugins:
   - source: github:quartz-community/obsidian-flavored-markdown
     enabled: true
     options:
-      comments: true
-      highlight: true
-      wikilinks: true
-      callouts: true
-      mermaid: true
-      parseTags: true
-      parseArrows: true
-      parseBlockReferences: true
       enableInHtmlEmbed: false
-      enableYouTubeEmbed: true
-      enableVideoEmbed: true
       enableCheckbox: true
     order: 30
   - source: github:quartz-community/github-flavored-markdown
@@ -100,7 +90,7 @@ plugins:
     enabled: false
     order: 85
   - source: github:quartz-community/hard-line-breaks
-    enabled: true
+    enabled: false
     order: 90
   - source: github:quartz-community/ox-hugo
     enabled: false
@@ -114,23 +104,6 @@ plugins:
     enabled: true
   - source: github:quartz-community/explicit-publish
     enabled: false
-  - source: github:quartz-community/unlisted-pages
-    enabled: true
-    options: {}
-    order: 45
-  - source: github:quartz-community/encrypted-pages
-    enabled: true
-    options:
-      iterations: 600000
-      passwordField: password
-      unlistWhenEncrypted: false
-      outputPath: static/encryptedContentIndex.json
-  - source: github:quartz-community/stacked-pages
-    enabled: false
-    layout:
-      position: afterBody
-      priority: 50
-      display: all
   - source: github:quartz-community/alias-redirects
     enabled: true
   - source: github:quartz-community/content-index
@@ -162,11 +135,6 @@ plugins:
     layout:
       position: right
       priority: 10
-    options:
-      localGraph:
-        depth: 1
-      globalGraph:
-        depth: -1
   - source: github:quartz-community/search
     enabled: true
     layout:
@@ -263,25 +231,28 @@ plugins:
       position: beforeBody
       priority: 15
       display: all
-  - source: github:Requiae/quartz-leaflet-bases-plugin
+  - source: github:quartz-community/unlisted-pages
+    enabled: true
+    options: {}
+    order: 45
+  - source: github:quartz-community/encrypted-pages
     enabled: true
     options:
-      enableCopyTool: false
-  - source:
-      name: quartz-themes
-      repo: github:saberzero1/quartz-themes
-      subdir: plugin
-    enabled: true
-    options:
-      theme: its-theme
-      variation: ttrpg-wotc
-  - source: github:quartz-community/obsidian-plugin-excalidraw
-    enabled: true
-    options:
-      enableInteraction: true
-      darkMode: auto
-      exportPadding: 20
-    order: 50
+      iterations: 600000
+      passwordField: password
+      unlistWhenEncrypted: false
+      outputPath: static/encryptedContentIndex.json
+    order: 900
+    layout:
+      position: body
+      priority: 100
+      display: all
+  - source: github:quartz-community/stacked-pages
+    enabled: false
+    layout:
+      position: afterBody
+      priority: 50
+      display: all
 layout:
   groups:
     toolbar:
