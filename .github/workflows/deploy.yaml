@@ -27,14 +27,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }} # Changed tracking to root package file
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v2 # Added -v2
           restore-keys: |
             ${{ runner.os }}-node-
+            
       - name: Cache Quartz plugins
         uses: actions/cache@v4
         with:
           path: .quartz/plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v2 # Added -v2
           restore-keys: |
             ${{ runner.os }}-plugins-
       - name: Install Dependencies
