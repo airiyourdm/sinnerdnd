@@ -27,30 +27,26 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v4
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v5 # Bumping to v5 to clean the slate
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Cache Quartz plugins
         uses: actions/cache@v4
         with:
           path: .quartz/plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v4
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v5
           restore-keys: |
             ${{ runner.os }}-plugins-
       - name: Install Dependencies
         run: |
           npm install
           npm rebuild
-      - name: Fix Permissions and Install Quartz plugins
-        run: |
-          # Grant executable permissions to node modules binaries
-          chmod -R +x node_modules/.bin/ || true
-          npx quartz plugin install --latest
+      - name: Install Quartz plugins
+        # Using node to run the script bypasses shell permission limits entirely
+        run: node node_modules/quartz/index.cjs plugin install --latest
       - name: Build Quartz
-        run: |
-          # Ensure execution bit is preserved for the bundler
-          chmod -R +x node_modules/.bin/ || true
-          npx quartz build
+        # Using node to run the build bypasses shell permission limits entirely
+        run: node node_modules/quartz/index.cjs build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
