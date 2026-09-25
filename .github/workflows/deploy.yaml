@@ -27,14 +27,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v5 # Bumping to v5 to clean the slate
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v6 # Bumped cache key version
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Cache Quartz plugins
         uses: actions/cache@v4
         with:
           path: .quartz/plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v5
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v6
           restore-keys: |
             ${{ runner.os }}-plugins-
       - name: Install Dependencies
@@ -42,11 +42,11 @@ jobs:
           npm install
           npm rebuild
       - name: Install Quartz plugins
-        # Using node to run the script bypasses shell permission limits entirely
-        run: node node_modules/quartz/index.cjs plugin install --latest
+        # Directly invoking the ES Module bypasses permission blocks completely
+        run: node ./quartz/bootstrap-cli.mjs plugin install --latest
       - name: Build Quartz
-        # Using node to run the build bypasses shell permission limits entirely
-        run: node node_modules/quartz/index.cjs build
+        # Directly invoking the ES Module to bundle your D&D static site
+        run: node ./quartz/bootstrap-cli.mjs build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
