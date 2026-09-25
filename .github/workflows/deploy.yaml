@@ -19,34 +19,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch all history for git info
+          fetch-depth: 0 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22 # Use the current stable active LTS version
+          node-version: 22 
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v2 # Added -v2
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-v4
           restore-keys: |
             ${{ runner.os }}-node-
-            
       - name: Cache Quartz plugins
         uses: actions/cache@v4
         with:
           path: .quartz/plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v2 # Added -v2
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}-v4
           restore-keys: |
             ${{ runner.os }}-plugins-
       - name: Install Dependencies
-        # Standard 'npm install' ensures dependencies compile on changes without strict lock matching
         run: |
           npm install
           npm rebuild
-      - name: Install Quartz plugins
-        run: npx quartz plugin install --latest
+      - name: Fix Permissions and Install Quartz plugins
+        run: |
+          # Grant executable permissions to node modules binaries
+          chmod -R +x node_modules/.bin/ || true
+          npx quartz plugin install --latest
       - name: Build Quartz
-        run: npx quartz build
+        run: |
+          # Ensure execution bit is preserved for the bundler
+          chmod -R +x node_modules/.bin/ || true
+          npx quartz build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
