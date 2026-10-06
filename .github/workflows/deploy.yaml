@@ -46,11 +46,10 @@ jobs:
           # Grant executable permissions to node modules binaries
           chmod -R +x node_modules/.bin/ || true
           npx quartz plugin install --latest
-      - name: Build Quartz
-        run: |
-          # Ensure execution bit is preserved for the bundler
-          chmod -R +x node_modules/.bin/ || true
-          npx quartz build
+     - name: Install Quartz Plugins
+        run: npx quartz plugin install
+     - name: Build Quartz
+        run: npx quartz build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
